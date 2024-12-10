@@ -141,7 +141,3 @@ if st.button("Export Messages"):
                     "text/csv",
                     key='download-csv'
                 )
-
-                # Preview data
-                st.subheader("Data Preview")
-                st.dataframe(df.head())
