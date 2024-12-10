@@ -23,9 +23,10 @@ def fetch_posthog_events(bot_wat, poi_uuids, start_date, end_date, include_error
     elif poi_uuids:
         uuid_list = [
             f"'{uuid.strip()}'" for uuid in poi_uuids.split() if uuid.strip()]
-        filters.append(f"properties.poi_uuid in ({','.join(uuid_list)})")
+        filters.append(f"properties.artwork_id in ({','.join(uuid_list)})")
 
     error_filters = []
+
     if include_errors:
         error_filters.append("properties.error is not null")
     if include_no_errors:
@@ -35,6 +36,8 @@ def fetch_posthog_events(bot_wat, poi_uuids, start_date, end_date, include_error
         filters.append(f"({' or '.join(error_filters)})")
 
     where_clause = f"event = 'message_received' and {' and '.join(filters)}"
+
+    print(where_clause)
 
     query = f"""
             SELECT
@@ -84,7 +87,7 @@ if filter_type == "Bot WAT":
     poi_uuids = ""
 else:
     bot_wat = ""
-    poi_uuids = st.text_area("POI UUIDs (one per line)")
+    poi_uuids = st.text_area("POI IDs (one per line)")
 
 # Date Range
 col1, col2 = st.columns(2)
