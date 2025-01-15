@@ -91,7 +91,7 @@ if filter_type == "Bot WAT":
     bot_wat = st.text_input("Bot WAT")
     poi_uuids = ""
     item_uuids = ""
-else if filter_type == "POI UUIDs":
+elif filter_type == "POI UUIDs":
     bot_wat = ""
     poi_uuids = st.text_area("POI IDs (one per line)")
     item_uuids = ""
