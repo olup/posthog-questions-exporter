@@ -121,7 +121,6 @@ with col3:
 with col4:
     include_no_errors = st.checkbox("Include Messages without Errors", True)
 
-print(filter_type)
 if st.button("Export Messages"):
     if filter_type == "Bot WAT" and not bot_wat:
         st.error("Please enter a Bot WAT")
