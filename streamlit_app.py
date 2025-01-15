@@ -24,6 +24,11 @@ def fetch_posthog_events(bot_wat, poi_uuids, start_date, end_date, include_error
         uuid_list = [
             f"'{uuid.strip()}'" for uuid in poi_uuids.split() if uuid.strip()]
         filters.append(f"properties.artwork_id in ({','.join(uuid_list)})")
+    elif item_uuids:
+        uuid_list = [
+            f"'{uuid.strip()}'" for uuid in item_uuids.split() if uuid.strip()]
+        filters.append(
+            f"properties.main_chat_item_uuid in ({','.join(uuid_list)})")
 
     error_filters = []
 
@@ -79,15 +84,22 @@ def fetch_posthog_events(bot_wat, poi_uuids, start_date, end_date, include_error
 st.title("PostHog Message Exporter")
 
 # Filter Type Selection
-filter_type = st.radio("Filter Type", ["Bot WAT", "POI UUIDs"])
+filter_type = st.radio("Filter Type", ["Bot WAT", "POI UUIDs", "Item UUIDs"])
 
 # Filter Value Input
 if filter_type == "Bot WAT":
     bot_wat = st.text_input("Bot WAT")
     poi_uuids = ""
-else:
+    item_uuids = ""
+else if filter_type == "POI UUIDs":
     bot_wat = ""
     poi_uuids = st.text_area("POI IDs (one per line)")
+    item_uuids = ""
+else:
+    bot_wat = ""
+    poi_uuids = ""
+    item_uuids = st.text_area("Chat Item UUIDs (one per line)")
+
 
 # Date Range
 col1, col2 = st.columns(2)
