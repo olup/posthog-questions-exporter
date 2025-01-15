@@ -49,8 +49,6 @@ def fetch_posthog_events(bot_wat, poi_uuids, item_uuids, start_date, end_date, i
 
     where_clause = f"event = 'message_received' and {' and '.join(filters)}"
 
-    print(where_clause)
-
     query = f"""
             SELECT
             timestamp,
@@ -123,6 +121,7 @@ with col3:
 with col4:
     include_no_errors = st.checkbox("Include Messages without Errors", True)
 
+print(filter_type)
 if st.button("Export Messages"):
     if filter_type == "Bot WAT" and not bot_wat:
         st.error("Please enter a Bot WAT")
