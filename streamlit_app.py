@@ -8,7 +8,7 @@ import json
 st.set_page_config(page_title="PostHog Message Exporter")
 
 
-def fetch_posthog_events(bot_wat, poi_uuids, start_date, end_date, include_errors, include_no_errors):
+def fetch_posthog_events(bot_wat, poi_uuids, item_uuids, start_date, end_date, include_errors, include_no_errors):
     project_id = "19229"
     api_key = st.secrets["POSTHOG_API_KEY"]
 
@@ -39,6 +39,13 @@ def fetch_posthog_events(bot_wat, poi_uuids, start_date, end_date, include_error
 
     if error_filters:
         filters.append(f"({' or '.join(error_filters)})")
+
+    # add filter for startdate and enddate
+    if start_date:
+        filters.append(f"timestamp >= '{start_date}'")
+
+    if end_date:
+        filters.append(f"timestamp <= '{end_date}'")
 
     where_clause = f"event = 'message_received' and {' and '.join(filters)}"
 
@@ -128,6 +135,7 @@ if st.button("Export Messages"):
             results = fetch_posthog_events(
                 bot_wat=bot_wat,
                 poi_uuids=poi_uuids,
+                item_uuids=item_uuids,
                 start_date=start_date.isoformat(),
                 end_date=end_date.isoformat(),
                 include_errors=include_errors,
